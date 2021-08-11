@@ -1,8 +1,12 @@
 import React from "react";
+import { SearchContext, LoadingContext } from "../context";
 
 import styles from "./input-search.module.scss";
 
 export const InputSearch: React.FC = () => {
+  const searchContext = React.useContext(SearchContext);
+  const loadingContext = React.useContext(LoadingContext);
+
   return (
     <label className={styles.label}>
       <svg className={styles.label__icon} viewBox="0 0 16 16" fill="none">
@@ -21,7 +25,14 @@ export const InputSearch: React.FC = () => {
           strokeLinejoin="round"
         />
       </svg>
-      <input className={styles.label__input} type="text" placeholder="search" />
+      <input
+        className={styles.label__input}
+        type="text"
+        placeholder="search"
+        value={searchContext.search}
+        onChange={(e) => searchContext.setSearch(e.target.value)}
+        disabled={loadingContext.isLoading}
+      />
     </label>
   );
 };

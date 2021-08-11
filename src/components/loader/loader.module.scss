@@ -1,0 +1,37 @@
+.loader {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border: 3px solid #7f8185;
+  border-radius: 50%;
+
+  &::before,
+  &::after {
+    position: absolute;
+    content: "";
+    top: 22px;
+    width: 0.2rem;
+    background: #7f8185;
+    border-radius: 10px;
+    transform-origin: center 0;
+    animation: spin infinite linear;
+  }
+  &::before {
+    height: 20px;
+    animation-duration: 2s;
+  }
+
+  &::after {
+    height: 10px;
+    animation-duration: 15s;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
