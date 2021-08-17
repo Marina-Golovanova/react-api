@@ -2,4 +2,10 @@
   display: flex;
   margin-top: 20px;
   gap: 5px;
+  flex-wrap: wrap;
+}
+
+.sort {
+  flex-wrap: wrap;
+  width: 100%;
 }

@@ -7,6 +7,12 @@ export const InputSearch: React.FC = () => {
   const searchContext = React.useContext(SearchContext);
   const loadingContext = React.useContext(LoadingContext);
 
+  const onKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      searchContext.setSearch(searchContext.search);
+    }
+  };
+
   return (
     <label className={styles.label}>
       <svg className={styles.label__icon} viewBox="0 0 16 16" fill="none">
@@ -32,6 +38,7 @@ export const InputSearch: React.FC = () => {
         value={searchContext.search}
         onChange={(e) => searchContext.setSearch(e.target.value)}
         disabled={loadingContext.isLoading}
+        onKeyPress={onKeyPress}
       />
     </label>
   );

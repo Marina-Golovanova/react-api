@@ -4,7 +4,7 @@ import styles from "./button.module.scss";
 
 type ButtonProps = {
   text: string;
-  onChange: () => void;
+  onChange?: () => void;
 };
 
 export const Button: React.FC<ButtonProps> = (props) => {
