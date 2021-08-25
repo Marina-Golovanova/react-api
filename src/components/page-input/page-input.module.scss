@@ -1,0 +1,24 @@
+.label {
+  display: block;
+  position: relative;
+  height: 32px;
+  width: 32px;
+  line-height: 30px;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  cursor: pointer;
+
+  input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    border: none;
+
+    &:focus-visible {
+      outline: 1px solid #1890ff;
+    }
+  }
+}
