@@ -1,7 +1,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from "react";
-import { ArticlesContext } from "../context";
+import { ArticlesContext, LoadingContext } from "../context";
+import { Loader } from "../loader/Loader";
+import { PageInput } from "../page-input/PageInput";
 
 import styles from "./articles.module.scss";
 
@@ -9,6 +11,7 @@ const cols = ["author", "description", "publishedAt", "title", "image"];
 
 export const Articles: React.FC = () => {
   const { articles } = React.useContext(ArticlesContext);
+  const { isLoading } = React.useContext(LoadingContext);
 
   return (
     <div className={styles.articles}>
@@ -19,19 +22,25 @@ export const Articles: React.FC = () => {
           </div>
         ))}
       </div>
-      {cols.map((col) => (
-        <>
-          {articles.map((article) => (
-            <div className={styles.row} key={col}>
-              <div className={styles.cell}>{article.author}</div>
-              <div className={styles.cell}>{article.description}</div>
-              <div className={styles.cell}>{article.publishedAt}</div>
-              <div className={styles.cell}>{article.title}</div>
-              <img className={styles.cell} src={article.urlToImage} alt={col} />
-            </div>
-          ))}
-        </>
+      {articles.map((article) => (
+        <div className={styles.row} key={article.source.id}>
+          <div className={styles.cell}>{article.author}</div>
+          <div className={styles.cell}>{article.description}</div>
+          <div className={styles.cell}>{article.publishedAt}</div>
+          <div className={styles.cell}>{article.title}</div>
+          <img
+            className={styles.cell}
+            src={article.urlToImage}
+            alt={article.title}
+          />
+        </div>
       ))}
+      {isLoading && <Loader />}
+      {!!articles.length && (
+        <div className={styles.pageControls}>
+          <PageInput />
+        </div>
+      )}
     </div>
   );
 };

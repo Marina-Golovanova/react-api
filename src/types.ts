@@ -17,7 +17,9 @@ export interface GET200_Articles {
 }
 
 export enum SortType {
-  relevance = "relevancy",
   popularity = "popularity",
+  relevancy = "relevancy",
   publishedAt = "publishedAt ",
 }
+
+export type IPageSize = 10 | 50 | 100;
