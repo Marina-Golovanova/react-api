@@ -7,7 +7,7 @@ import {
   LoadingContext,
   PageContext,
   SearchContext,
-  PageSizeContext,
+  TotalPagesContext,
 } from "../context";
 import { axiosInstance } from "../../services/api";
 import { GET200_Articles, IPageSize, SortType } from "../../types";
@@ -19,9 +19,11 @@ export const SearchForm: React.FC = () => {
   const loadingContext = React.useContext(LoadingContext);
   const searchContext = React.useContext(SearchContext);
   const articlesContext = React.useContext(ArticlesContext);
-  const pageSizeContext = React.useContext(PageSizeContext);
+  const { setTotalPages } = React.useContext(TotalPagesContext);
   const { page } = React.useContext(PageContext);
   const [sortBy, setSortBy] = React.useState<SortType>(SortType.popularity);
+  const [pageSize, setPageSize] = React.useState(10);
+
   const pageSizeArr: IPageSize[] = [10, 50, 100];
 
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
@@ -30,8 +32,9 @@ export const SearchForm: React.FC = () => {
 
     try {
       const response: AxiosResponse<GET200_Articles> = await axiosInstance.get(
-        `v2/everything?q=${searchContext.search}&apiKey=2dbf0f399b794cd5ac7870b8addf6299&sortBy=${sortBy}&pageSize=${pageSizeContext.pageSize}&page=${page}`
+        `v2/everything?q=${searchContext.search}&apiKey=2dbf0f399b794cd5ac7870b8addf6299&sortBy=${sortBy}&pageSize=${pageSize}&page=${page}`
       );
+      setTotalPages(Math.ceil(response.data.totalResults / pageSize));
       articlesContext.setArticles(response.data.articles);
     } catch (err) {
       console.log(err);
@@ -62,8 +65,8 @@ export const SearchForm: React.FC = () => {
             key={el}
             label={`${el} results per page`}
             value={String(el)}
-            checked={el === pageSizeContext.pageSize}
-            onChange={() => pageSizeContext.setPageSize(el)}
+            checked={el === pageSize}
+            onChange={() => setPageSize(el)}
           />
         ))}
       </div>

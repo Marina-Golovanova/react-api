@@ -21,9 +21,9 @@ interface IPageContext {
   setPage: (value: number | string) => void;
 }
 
-interface IPageSizeContext {
-  pageSize: number;
-  setPageSize: (value: number) => void;
+interface ITotalPagesContext {
+  totalPages: number;
+  setTotalPages: (value: number) => void;
 }
 
 export const SearchContext = React.createContext<ISearchContext>({
@@ -46,7 +46,7 @@ export const PageContext = React.createContext<IPageContext>({
   setPage: () => null,
 });
 
-export const PageSizeContext = React.createContext<IPageSizeContext>({
-  pageSize: 10,
-  setPageSize: () => null,
+export const TotalPagesContext = React.createContext<ITotalPagesContext>({
+  totalPages: 0,
+  setTotalPages: () => null,
 });

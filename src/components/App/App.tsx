@@ -4,7 +4,7 @@ import {
   LoadingContext,
   ArticlesContext,
   PageContext,
-  PageSizeContext,
+  TotalPagesContext,
 } from "../context";
 import { Layout } from "../layout/Layout";
 import { SearchForm } from "../search-form/SearchForm";
@@ -18,14 +18,14 @@ export const App: React.FC = () => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [articles, setArticles] = React.useState<IArticle[]>([]);
   const [page, setPage] = React.useState<number | string>(1);
-  const [pageSize, setPageSize] = React.useState(10);
+  const [totalPages, setTotalPages] = React.useState(0);
 
   return (
     <SearchContext.Provider
       value={{ search: inputSearch, setSearch: setInputSearch }}
     >
       <LoadingContext.Provider value={{ isLoading, setIsLoading }}>
-        <PageSizeContext.Provider value={{ pageSize, setPageSize }}>
+        <TotalPagesContext.Provider value={{ totalPages, setTotalPages }}>
           <PageContext.Provider value={{ page, setPage }}>
             <ArticlesContext.Provider value={{ articles, setArticles }}>
               <Layout>
@@ -34,7 +34,7 @@ export const App: React.FC = () => {
               </Layout>
             </ArticlesContext.Provider>
           </PageContext.Provider>
-        </PageSizeContext.Provider>
+        </TotalPagesContext.Provider>
       </LoadingContext.Provider>
     </SearchContext.Provider>
   );

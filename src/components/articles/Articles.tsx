@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from "react";
-import { ArticlesContext, LoadingContext } from "../context";
+import { ArticlesContext, LoadingContext, TotalPagesContext } from "../context";
 import { Loader } from "../loader/Loader";
 import { PageInput } from "../page-input/PageInput";
 
@@ -12,6 +12,7 @@ const cols = ["author", "description", "publishedAt", "title", "image"];
 export const Articles: React.FC = () => {
   const { articles } = React.useContext(ArticlesContext);
   const { isLoading } = React.useContext(LoadingContext);
+  const { totalPages } = React.useContext(TotalPagesContext);
 
   return (
     <div className={styles.articles}>
@@ -39,6 +40,7 @@ export const Articles: React.FC = () => {
       {!!articles.length && (
         <div className={styles.pageControls}>
           <PageInput />
+          <span> / {totalPages}</span>
         </div>
       )}
     </div>

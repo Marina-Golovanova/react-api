@@ -14,6 +14,7 @@ export interface IArticle {
 
 export interface GET200_Articles {
   articles: IArticle[];
+  totalResults: number;
 }
 
 export enum SortType {
