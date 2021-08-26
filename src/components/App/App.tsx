@@ -6,6 +6,7 @@ import {
   PageContext,
   TotalPagesContext,
 } from "../context";
+import { Header } from "../header/Header";
 import { Layout } from "../layout/Layout";
 import { SearchForm } from "../search-form/SearchForm";
 import { IArticle } from "../../types";
@@ -28,6 +29,7 @@ export const App: React.FC = () => {
         <TotalPagesContext.Provider value={{ totalPages, setTotalPages }}>
           <PageContext.Provider value={{ page, setPage }}>
             <ArticlesContext.Provider value={{ articles, setArticles }}>
+              <Header />
               <Layout>
                 <SearchForm />
                 <Articles />
