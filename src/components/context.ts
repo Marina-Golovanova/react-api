@@ -26,6 +26,11 @@ interface ITotalPagesContext {
   setTotalPages: (value: number) => void;
 }
 
+interface IArticleIdsContext {
+  articleId: string;
+  setArticleId: (value: string) => void;
+}
+
 export const SearchContext = React.createContext<ISearchContext>({
   search: "",
   setSearch: () => null,
@@ -49,4 +54,9 @@ export const PageContext = React.createContext<IPageContext>({
 export const TotalPagesContext = React.createContext<ITotalPagesContext>({
   totalPages: 0,
   setTotalPages: () => null,
+});
+
+export const ArticleIdContext = React.createContext<IArticleIdsContext>({
+  articleId: "",
+  setArticleId: () => null,
 });
