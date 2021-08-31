@@ -1,0 +1,16 @@
+.layout {
+  margin-top: 40px;
+}
+
+.titleContainer {
+  display: grid;
+  grid-template-columns: 1fr 10fr;
+  min-height: 40px;
+  border-bottom: 1px solid #e6e6e6;
+  padding: 10px;
+  align-items: center;
+}
+
+.title {
+  font-weight: 500;
+}

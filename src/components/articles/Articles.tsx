@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from "react";
+import { Link } from "react-router-dom";
 import { ArticlesContext, LoadingContext, TotalPagesContext } from "../context";
 import { Loader } from "../loader/Loader";
 import { PageInput } from "../page-input/PageInput";
@@ -28,7 +29,9 @@ export const Articles: React.FC = () => {
           <div className={styles.cell}>{article.author}</div>
           <div className={styles.cell}>{article.description}</div>
           <div className={styles.cell}>{article.publishedAt}</div>
-          <div className={styles.cell}>{article.title}</div>
+          <div className={styles.cell}>
+            <Link to={`details/:${article.title}`}>{article.title}</Link>
+          </div>
           <img
             className={styles.cell}
             src={article.urlToImage}

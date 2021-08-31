@@ -1,5 +1,4 @@
 import React from "react";
-// import { SortType } from "../../types";
 
 import styles from "./sort-input.module.scss";
 

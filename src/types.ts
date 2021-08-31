@@ -17,6 +17,10 @@ export interface GET200_Articles {
   totalResults: number;
 }
 
+export interface GET200_Articles_From_Url {
+  articles: IArticle[];
+}
+
 export enum SortType {
   popularity = "popularity",
   relevancy = "relevancy",
