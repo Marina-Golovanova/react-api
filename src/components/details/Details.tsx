@@ -1,12 +1,36 @@
 import React from "react";
 import { useParams } from "react-router";
+import { AxiosResponse } from "axios";
 import { useDataByTitle } from "../../hooks/useDataByTitle";
+import { axiosInstance } from "../../services/api";
+import { GET200_Articles_From_Url } from "../../types";
+import { ArticlesContext } from "../context";
 
 import styles from "./details.module.scss";
 
-export const Details = () => {
+export const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  localStorage.setItem("title", id);
+
+  const { articles, setArticles } = React.useContext(ArticlesContext);
+
+  React.useEffect(() => {
+    if (!articles.length) {
+      try {
+        axiosInstance
+          .get(
+            `v2/everything?q=${id.slice(
+              1
+            )}&apiKey=2dbf0f399b794cd5ac7870b8addf6299`
+          )
+          .then((response: AxiosResponse<GET200_Articles_From_Url>) => {
+            setArticles(response.data.articles);
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }, [articles.length, id, setArticles]);
+
   const article = useDataByTitle(id.substr(1));
 
   return (

@@ -1,4 +1,5 @@
 import React from "react";
+import { AxiosResponse } from "axios";
 import { InputSearch } from "../input-search/InputSearch";
 import { Button } from "../button/Button";
 import { SortInput } from "../sort-input/SortInput";
@@ -13,7 +14,6 @@ import { axiosInstance } from "../../services/api";
 import { GET200_Articles, IPageSize, SortType } from "../../types";
 
 import styles from "./search-form.module.scss";
-import { AxiosResponse } from "axios";
 
 export const SearchForm: React.FC = () => {
   const loadingContext = React.useContext(LoadingContext);
