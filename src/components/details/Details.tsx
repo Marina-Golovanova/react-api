@@ -1,35 +1,28 @@
 import React from "react";
 import { useParams } from "react-router";
-import { AxiosResponse } from "axios";
 import { useDataByTitle } from "../../hooks/useDataByTitle";
-import { axiosInstance } from "../../services/api";
-import { GET200_Articles_From_Url } from "../../types";
-import { ArticlesContext } from "../context";
+import { requestArticles } from "../redux/actions";
 
 import styles from "./details.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { selectArticles } from "../redux/selectors";
 
 export const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
-  const { articles, setArticles } = React.useContext(ArticlesContext);
+  const dispatch = useDispatch();
+
+  const articles = useSelector(selectArticles);
 
   React.useEffect(() => {
     if (!articles.length) {
       try {
-        axiosInstance
-          .get(
-            `v2/everything?q=${id.slice(
-              1
-            )}&apiKey=2dbf0f399b794cd5ac7870b8addf6299`
-          )
-          .then((response: AxiosResponse<GET200_Articles_From_Url>) => {
-            setArticles(response.data.articles);
-          });
+        dispatch(requestArticles({ title: id.slice(1) }));
       } catch (err) {
         console.log(err);
       }
     }
-  }, [articles.length, id, setArticles]);
+  }, [articles.length, dispatch, id]);
 
   const article = useDataByTitle(id.substr(1));
 
