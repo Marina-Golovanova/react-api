@@ -1,19 +1,27 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { ArticlesContext, LoadingContext, TotalPagesContext } from "../context";
 import { Loader } from "../loader/Loader";
 import { PageInput } from "../page-input/PageInput";
+import {
+  selectTotalArticlesCount,
+  selectArticles,
+  selectLoading,
+  selectPageSize,
+} from "../redux/selectors";
 
 import styles from "./articles.module.scss";
 
 const cols = ["author", "description", "publishedAt", "title", "image"];
 
 export const Articles: React.FC = () => {
-  const { articles } = React.useContext(ArticlesContext);
-  const { isLoading } = React.useContext(LoadingContext);
-  const { totalPages } = React.useContext(TotalPagesContext);
+  const totalPages =
+    useSelector(selectTotalArticlesCount) / useSelector(selectPageSize);
+
+  const articles = useSelector(selectArticles);
+  const isLoading = useSelector(selectLoading);
 
   return (
     <div className={styles.articles}>
@@ -43,7 +51,7 @@ export const Articles: React.FC = () => {
       {!!articles.length && (
         <div className={styles.pageControls}>
           <PageInput />
-          <span> / {totalPages}</span>
+          <span> / {Math.ceil(totalPages)}</span>
         </div>
       )}
     </div>

@@ -1,11 +1,13 @@
 import React from "react";
-import { SearchContext, LoadingContext } from "../context";
+import { useSelector } from "react-redux";
+import { SearchContext } from "../context";
+import { selectLoading } from "../redux/selectors";
 
 import styles from "./input-search.module.scss";
 
 export const InputSearch: React.FC = () => {
   const searchContext = React.useContext(SearchContext);
-  const loadingContext = React.useContext(LoadingContext);
+  const isLoading = useSelector(selectLoading);
 
   const onKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
@@ -36,8 +38,11 @@ export const InputSearch: React.FC = () => {
         type="text"
         placeholder="search"
         value={searchContext.search}
-        onChange={(e) => searchContext.setSearch(e.target.value)}
-        disabled={loadingContext.isLoading}
+        onChange={(e) => {
+          searchContext.setSearch(e.target.value);
+          localStorage.setItem("inputSearch", e.target.value);
+        }}
+        disabled={isLoading}
         onKeyPress={onKeyPress}
       />
     </label>

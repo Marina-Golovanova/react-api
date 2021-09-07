@@ -1,46 +1,33 @@
 import React from "react";
-import { AxiosResponse } from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import { InputSearch } from "../input-search/InputSearch";
 import { Button } from "../button/Button";
 import { SortInput } from "../sort-input/SortInput";
-import {
-  ArticlesContext,
-  LoadingContext,
-  PageContext,
-  SearchContext,
-  TotalPagesContext,
-} from "../context";
-import { axiosInstance } from "../../services/api";
-import { GET200_Articles, IPageSize, SortType } from "../../types";
+import { SearchContext } from "../context";
+import { IPageSize, SortType } from "../../types";
+import { requestArticles, setPageSize, setSortBy } from "../redux/actions";
+import { selectPageSize, selectSortBy } from "../redux/selectors";
 
 import styles from "./search-form.module.scss";
 
 export const SearchForm: React.FC = () => {
-  const loadingContext = React.useContext(LoadingContext);
   const searchContext = React.useContext(SearchContext);
-  const articlesContext = React.useContext(ArticlesContext);
-  const { setTotalPages } = React.useContext(TotalPagesContext);
-  const { page } = React.useContext(PageContext);
-  const [sortBy, setSortBy] = React.useState<SortType>(SortType.popularity);
-  const [pageSize, setPageSize] = React.useState(10);
 
   const pageSizeArr: IPageSize[] = [10, 50, 100];
 
+  const dispatch = useDispatch();
+
+  const pageSize = useSelector(selectPageSize);
+  const sortBy = useSelector(selectSortBy);
+
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    loadingContext.setIsLoading(true);
 
-    try {
-      const response: AxiosResponse<GET200_Articles> = await axiosInstance.get(
-        `v2/everything?q=${searchContext.search}&apiKey=2dbf0f399b794cd5ac7870b8addf6299&sortBy=${sortBy}&pageSize=${pageSize}&page=${page}`
-      );
-      setTotalPages(Math.ceil(response.data.totalResults / pageSize));
-      articlesContext.setArticles(response.data.articles);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      loadingContext.setIsLoading(false);
-    }
+    dispatch(
+      requestArticles({
+        title: searchContext.search,
+      })
+    );
   };
 
   return (
@@ -55,7 +42,7 @@ export const SearchForm: React.FC = () => {
             label={sortType}
             value={sortType as SortType}
             checked={sortType === sortBy}
-            onChange={() => setSortBy(sortType as SortType)}
+            onChange={() => dispatch(setSortBy(sortType as SortType))}
           />
         ))}
       </div>
@@ -66,7 +53,7 @@ export const SearchForm: React.FC = () => {
             label={`${el} results per page`}
             value={String(el)}
             checked={el === pageSize}
-            onChange={() => setPageSize(el)}
+            onChange={() => dispatch(setPageSize(el))}
           />
         ))}
       </div>
